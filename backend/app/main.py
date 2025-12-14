@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from backend.app.api.analyze import router as analyze_router
 
 app = FastAPI(
-    title="Repo Mirror AI",
+    title="RepoAI",
     description="AI-powered GitHub repository evaluator",
     version="0.1.0"
 )
