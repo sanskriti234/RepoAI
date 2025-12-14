@@ -36,3 +36,12 @@ class TestingAnalysis(BaseModel):
     test_files_count: int
     test_frameworks: list
     has_coverage: bool
+
+
+class GitPracticesAnalysis(BaseModel):
+    total_commits: int
+    recent_activity_days: int | None
+    commit_message_quality: str
+    has_multiple_branches: bool
+    has_pull_requests: bool
+    is_actively_maintained: bool
