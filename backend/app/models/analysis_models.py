@@ -28,3 +28,11 @@ class DocumentationAnalysis(BaseModel):
     has_contributing: bool
     has_license: bool
     doc_to_code_ratio: float
+
+
+class TestingAnalysis(BaseModel):
+    has_tests: bool
+    test_directories: list
+    test_files_count: int
+    test_frameworks: list
+    has_coverage: bool

@@ -11,6 +11,7 @@ from backend.app.services.github_service import (
 )
 from backend.app.services.code_quality_analyzer import analyze_code_quality
 from backend.app.services.documentation_analyzer import analyze_documentation
+from backend.app.services.testing_analyzer import analyze_testing
 
 
 router = APIRouter(prefix="/analyze", tags=["Repository Analysis"])
@@ -46,6 +47,7 @@ def analyze_repository(request: RepoAnalyzeRequest):
         local_repo_path,
         code_quality.total_lines_of_code
     )
+    testing = analyze_testing(local_repo_path)
 
     # 6. Fetch commits and languages
     commits = fetch_commit_stats(owner, repo)
@@ -53,7 +55,7 @@ def analyze_repository(request: RepoAnalyzeRequest):
 
     # 7. Return structured response
     return {
-        "status": "documentation_analyzed",
+        "status": "testing_analyzed",
         "repository": f"{owner}/{repo}",
         "metadata": {
             "stars": metadata.get("stargazers_count"),
@@ -64,5 +66,6 @@ def analyze_repository(request: RepoAnalyzeRequest):
         "languages": languages,
         "structure": structure.dict(),
         "code_quality": code_quality.dict(),
-        "documentation": documentation.dict()
+        "documentation": documentation.dict(),
+        "testing": testing.dict()
     }
