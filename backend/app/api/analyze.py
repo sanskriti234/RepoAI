@@ -13,6 +13,7 @@ from backend.app.services.code_quality_analyzer import analyze_code_quality
 from backend.app.services.documentation_analyzer import analyze_documentation
 from backend.app.services.testing_analyzer import analyze_testing
 from backend.app.services.git_practices_analyzer import analyze_git_practices
+from backend.app.core.scoring_engine import calculate_final_score
 
 
 router = APIRouter(prefix="/analyze", tags=["Repository Analysis"])
@@ -43,13 +44,27 @@ def analyze_repository(request: RepoAnalyzeRequest):
 
     # 5. Analyze repository structure
     structure = analyze_structure(local_repo_path)
+    
     code_quality = analyze_code_quality(local_repo_path)
+    
     documentation = analyze_documentation(
         local_repo_path,
         code_quality.total_lines_of_code
     )
+
     testing = analyze_testing(local_repo_path)
+
     git_practices = analyze_git_practices(owner, repo)
+    
+    score = calculate_final_score(
+    structure,
+    code_quality,
+    documentation,
+    testing,
+    git_practices
+)
+
+
 
 
     # 6. Fetch commits and languages
@@ -58,19 +73,15 @@ def analyze_repository(request: RepoAnalyzeRequest):
 
     # 7. Return structured response
     return {
-        "status": "git_analyzed",
-        "repository": f"{owner}/{repo}",
-        "metadata": {
-            "stars": metadata.get("stargazers_count"),
-            "forks": metadata.get("forks_count"),
-            "open_issues": metadata.get("open_issues_count")
-        },
-        "commits": commits,
-        "languages": languages,
+    "status": "scored",
+    "repository": f"{owner}/{repo}",
+    "score": score.dict(),
+    "analysis": {
         "structure": structure.dict(),
         "code_quality": code_quality.dict(),
         "documentation": documentation.dict(),
         "testing": testing.dict(),
         "git_practices": git_practices.dict()
-
     }
+}
+

@@ -45,3 +45,15 @@ class GitPracticesAnalysis(BaseModel):
     has_multiple_branches: bool
     has_pull_requests: bool
     is_actively_maintained: bool
+
+
+class ScoreBreakdown(BaseModel):
+    structure: int
+    code_quality: int
+    documentation: int
+    testing: int
+    git_practices: int
+    maintainability: int
+    total_score: int
+    level: str
+    badge: str
