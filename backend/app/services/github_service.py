@@ -7,14 +7,22 @@ from git import Repo
 BASE_CLONE_DIR = "data/cloned_repos"
 
 
+import tempfile
+
+import shutil
+import subprocess
+
 def clone_repository(repo_url: str, repo_name: str) -> str:
-    local_path = os.path.join(BASE_CLONE_DIR, repo_name)
+    base_dir = tempfile.mkdtemp(prefix="repoai_")
+    repo_path = os.path.join(base_dir, repo_name)
 
-    if os.path.exists(local_path):
-        return local_path  # already cloned
+    subprocess.run(
+        ["git", "clone", "--depth", "1", repo_url, repo_path],
+        check=True
+    )
 
-    Repo.clone_from(repo_url, local_path)
-    return local_path
+    return repo_path
+
 
 
 def extract_owner_repo(repo_url: str) -> tuple[str, str]:
