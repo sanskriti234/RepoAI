@@ -1,17 +1,21 @@
-# Repo Mirror AI
+## What does this tool do?
+Analyzes GitHub repositories to evaluate quality, explain working, and generate improvement roadmaps.
 
-An AI-powered system that evaluates GitHub repositories and provides:
-- Quality score (0–100)
-- Honest summary
-- Personalized improvement roadmap
-
-## Status
-🚧 Under active development
+## Key Features
+- Repository quality scoring
+- README-based project explanation
+- AI-generated improvement roadmap
+- Streamlit frontend
+- FastAPI backend
 
 ## Tech Stack
 - FastAPI
+- Streamlit
+- Groq (LLM)
 - Python
-- GitHub API
-- Static Code Analysis
-- LLM-based evaluation
 
+## How to Run
+1. Clone repo
+2. Set GROQ_API_KEY
+3. Run backend
+4. Run frontend
