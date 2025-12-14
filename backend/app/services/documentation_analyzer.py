@@ -64,3 +64,17 @@ def analyze_documentation(repo_path: str, total_loc: int) -> DocumentationAnalys
         has_license=sections["license"],
         doc_to_code_ratio=calculate_doc_ratio(readme_lines, total_loc)
     )
+
+
+def get_readme_content(repo_path: str) -> str:
+    for root, _, files in os.walk(repo_path):
+        for file in files:
+            if file.lower() == "readme.md":
+                path = os.path.join(root, file)
+                with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
+                    print("DEBUG: README FOUND AT", path)
+                    print("DEBUG: README LENGTH", len(content))
+                    return content
+    print("DEBUG: README NOT FOUND")
+    return ""

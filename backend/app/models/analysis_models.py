@@ -57,3 +57,14 @@ class ScoreBreakdown(BaseModel):
     total_score: int
     level: str
     badge: str
+
+
+class RoadmapItem(BaseModel):
+    priority: int
+    category: str
+    action: str
+    expected_impact: str
+
+
+class ImprovementRoadmap(BaseModel):
+    items: list[RoadmapItem]
